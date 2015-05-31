@@ -153,20 +153,31 @@
 //    UIImage *img = [UIImage imageNamed:@"http://img0.bdstatic.com/img/image/shouye/qdwzmx002.jpg"];
 //    NSData *data = UIImagePNGRepresentation(img);
     
-    NSString *urlStr = @"http://img0.bdstatic.com/img/image/shouye/qdwzmx002.jpg";
-    NSURL *baseURL = [NSURL URLWithString:urlStr];
+//    NSString *input = @"http://img0.bdstatic.com/img/image/shouye/qdwzmx002.jpg";
+//    NSString *output = @"media/user008/avatar";
+
+//    NSString *input = @"https://securecontent.kamcord.com/kamcord-games-1-videos/IAXPisaUmV5-base-h264.mp4";
+//    NSString *output = @"test.mp4";
+
+    NSString *input = @"https://securecontent.kamcord.com/kamcord-games-8-videos/coLLp2V3lt6-base-h264.mp4";
+    NSString *output = @"media/user1239123/video";
+
+   
+    //
+
+    
+    NSURL *baseURL = [NSURL URLWithString:input];
 
     NSData *data = [NSData dataWithContentsOfURL:baseURL];
     NSLog(@"pubObject %@ ", data);
     
-
-    
     ObjectMetadata * objMetadata = [[ObjectMetadata alloc] init];
-    [_client putObject:@"timeimprint" key:@"test.jpg" data:data objectMetadata:objMetadata];
+    [_client putObject:@"timeimprint" key:output data:data objectMetadata:objMetadata];
     // "timeimprint", "media/user123/avatar.png"
     NSLog(@"pubObject %@ ", data);
 
     [objMetadata release];
+    
 }
 -(void) fetchObject
 {
