@@ -8,11 +8,12 @@
 
 //在此处修改自己的aliyun OSS服务的 AccessID 和AccessKey
 
-#define accessid @"aaaaa"
-#define accesskey @"bbbb="
+#define ossendpoint @"http://oss-us-west-1.aliyuncs.com"
+#define accessid @"f1VGK8lNHkf0C9Cf"
+#define accesskey @"v1J1D4B2czqIdUI9AAba61srbRwGSE"
 //在此处修改自己的aliyun OTS服务的 AccessID 和AccessKey
-#define accessid @"9e0g1wvcoc9889d4c685iyq3"
-#define accesskey @"MzxWwbrsHrFxnQCgY3ET8suIqck="
+//#define accessid @"9e0g1wvcoc9889d4c685iyq3"
+//#define accesskey @"MzxWwbrsHrFxnQCgY3ET8suIqck="
 
 
 #import "ViewController.h"
@@ -41,13 +42,17 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    _client = [[OSSClient alloc] initWithAccessId:accessid andAccessKey:accesskey];
+    _client = [[OSSClient alloc] initWithEndPoint:ossendpoint AccessId:accessid andAccessKey:accesskey];
     _client.delegate = self;
     /*
     _otsClient = [[OTSClient alloc] initWithAccessId:otsaccessid andAccessKey:otsaccesskey];
     _otsClient.delegate = self;
      */
     [self listBucket];
+    
+    NSLog(@"========================> put object");
+    
+    [self putObject];
     
 }
 - (void)viewDidAppear:(BOOL)animated
@@ -144,9 +149,23 @@
 }
 -(void) putObject
 {
-    NSData * data = [[NSString stringWithString:@"中国"]  dataUsingEncoding:NSUTF8StringEncoding];
+//    NSData * data = [[NSString stringWithString:@"中国"]  dataUsingEncoding:NSUTF8StringEncoding];
+//    UIImage *img = [UIImage imageNamed:@"http://img0.bdstatic.com/img/image/shouye/qdwzmx002.jpg"];
+//    NSData *data = UIImagePNGRepresentation(img);
+    
+    NSString *urlStr = @"http://img0.bdstatic.com/img/image/shouye/qdwzmx002.jpg";
+    NSURL *baseURL = [NSURL URLWithString:urlStr];
+
+    NSData *data = [NSData dataWithContentsOfURL:baseURL];
+    NSLog(@"pubObject %@ ", data);
+    
+
+    
     ObjectMetadata * objMetadata = [[ObjectMetadata alloc] init];
-    [_client putObject:@"barrycc101" key:@"test222" data:data objectMetadata:objMetadata];
+    [_client putObject:@"timeimprint" key:@"test.jpg" data:data objectMetadata:objMetadata];
+    // "timeimprint", "media/user123/avatar.png"
+    NSLog(@"pubObject %@ ", data);
+
     [objMetadata release];
 }
 -(void) fetchObject
